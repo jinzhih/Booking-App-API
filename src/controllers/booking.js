@@ -11,6 +11,7 @@ async function addBooking(req, res) {
         topic,
         subject,
         content,
+        bookingDate
     } = req.body;
 
     const booking = new Booking({
@@ -20,7 +21,7 @@ async function addBooking(req, res) {
         topic,
         subject,
         content,
-        bookingDate: new Date(),
+        bookingDate,
         attachment: 'attachment'
     });
     await booking.save();

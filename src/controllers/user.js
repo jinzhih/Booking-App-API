@@ -23,10 +23,10 @@ async function addUser(req, res) {
     const user = new User({
         firstName: 'Ewe',
         lastName: 'Zod',
-        email: '123abc@test.com',
+        email: 'test@test.com',
         userType: 'student',
         campus: 'hobart',
-        password: '123456',
+        password: 'test999',
         gender: 'male',
         phone: '666666666',
         disableDate: null,
