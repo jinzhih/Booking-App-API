@@ -21,10 +21,10 @@ async function addUser(req, res) {
         return res.status(400).json("User already exist");
     }
     const user = new User({
-        firstName: 'Ewe',
-        lastName: 'Zod',
-        email: 'test@test.com',
-        userType: 'student',
+        firstName: 'Teacher',
+        lastName: 'Bob',
+        email: 'admin@test.com',
+        userType: 'admin',
         campus: 'hobart',
         password: 'test999',
         gender: 'male',
@@ -40,7 +40,10 @@ async function addUser(req, res) {
 //GET /api/users/:id/bookings
 async function getAllBookingsByUserId(req, res) {
   const { id: userId } = req.params;
-  const bookings = await Booking.find({ userId }).populate('chats', 'id chatRecords').exec();
+  const bookings = await Booking.find({ userId })
+      .populate('chats', 'id chatRecords')
+      .populate('userId', 'firstName lastName')
+      .exec();
   return res.json(bookings);
 }
 

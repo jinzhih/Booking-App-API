@@ -40,7 +40,10 @@ async function addBooking(req, res) {
 async function getBooking(req, res) {
     const { id } = req.params;
 
-    const booking = await Booking.findById(id).populate('chats', 'id chatRecords');
+    const booking = await Booking.findById(id)
+        .populate('chats', 'id chatRecords')
+        .populate('userId', 'firstName lastName')
+        .exec();
 
     if (!booking) {
         return res.status(404).json('booking not found');
@@ -50,8 +53,7 @@ async function getBooking(req, res) {
 }
 
 async function getAllBooking(req, res) {
-
-    const bookings = await Booking.find().populate('chats', 'id chatRecords').exec();
+    const bookings = await Booking.find( {}, { content: 0, attachment: 0, createdAt: 0, updatedAt: 0 }).populate('userId', 'firstName lastName').exec();
 
     if (!bookings) {
         return res.status(404).json('booking not found');
