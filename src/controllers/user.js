@@ -39,6 +39,19 @@ async function addUser(req, res) {
     return res.json({ email, token });
 }
 
+async function getUser(req, res) {
+    const { id } = req.params;
+    //TODO may need to update set data later
+    const user = await User.findById(id, 'firstName lastName email studentId campus phone gender disableDate')
+        .exec();
+
+    if (!user) {
+        return res.status(404).json('user not found');
+    }
+
+    return res.json(user);
+}
+
 //GET /api/users/:id/bookings
 async function getAllBookingsByUserId(req, res) {
     const { id: userId } = req.params;
@@ -49,4 +62,4 @@ async function getAllBookingsByUserId(req, res) {
     return res.json(bookings);
 }
 
-module.exports = { addUser, getAllBookingsByUserId };
+module.exports = { addUser, getUser, getAllBookingsByUserId };

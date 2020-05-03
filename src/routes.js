@@ -7,6 +7,8 @@ const authGuard = require('./middleware/authGuard');
 const adminGuard = require("./middleware/adminGuard");
 const router = express.Router();
 
+//TODO add auth middleware when production
+
 router.use("/auth", authRoute);
 router.use('/users', userRouter);
 router.use('/bookings', bookingRouter);
