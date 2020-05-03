@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const Booking = require('../models/booking');
-const { generateToken } = require("../utils/jwt");
+const { generateToken } = require('../utils/jwt');
 
 async function addUser(req, res) {
     const {
@@ -13,22 +13,24 @@ async function addUser(req, res) {
         gender,
         phone,
         bookings,
-        disableDate
+        disableDate,
     } = req.body;
-    
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-        return res.status(400).json("User already exist");
+        return res.status(400).json('User already exist');
     }
+    // Test Only
     const user = new User({
-        firstName: 'Teacher',
-        lastName: 'Bob',
-        email: 'admin@test.com',
-        userType: 'admin',
+        firstName: 'Harry',
+        lastName: 'Gorden',
+        email: 'test2@test.com',
+        studentId: '315623',
+        userType: 'student',
         campus: 'hobart',
         password: 'test999',
         gender: 'male',
-        phone: '666666666',
+        phone: '4568455465',
         disableDate: null,
     });
     await user.hashPassword();
@@ -39,12 +41,12 @@ async function addUser(req, res) {
 
 //GET /api/users/:id/bookings
 async function getAllBookingsByUserId(req, res) {
-  const { id: userId } = req.params;
-  const bookings = await Booking.find({ userId })
-      .populate('chats', 'id chatRecords')
-      .populate('userId', 'firstName lastName')
-      .exec();
-  return res.json(bookings);
+    const { id: userId } = req.params;
+    const bookings = await Booking.find({ userId })
+        .populate('chats', 'id chatRecords')
+        .populate('userId', 'firstName lastName')
+        .exec();
+    return res.json(bookings);
 }
 
 module.exports = { addUser, getAllBookingsByUserId };

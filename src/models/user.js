@@ -5,19 +5,19 @@ const bcrypt = require("bcrypt");
 const schema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
+        required: true,
     },
     lastName: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
         require: true,
         validate: {
-            validator: email => !Joi.string().email().validate(email).error,
-            msg: "Invalid email format"
-        }
+            validator: (email) => !Joi.string().email().validate(email).error,
+            msg: 'Invalid email format',
+        },
     },
     password: {
         type: String,
@@ -25,26 +25,31 @@ const schema = new mongoose.Schema({
     },
     userType: {
         type: String,
-        default: 'student'
+        default: 'student',
+    },
+    studentId: {
+        type: Number
     },
     campus: {
         type: String,
         default: 'Hobart',
-        required: true
+        required: true,
     },
     phone: {
         type: Number,
-        required: true
+        required: true,
     },
     gender: {
         type: String,
-        required: true
+        required: true,
     },
-    bookings: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Booking'
-    }],
-    disableDate: [{type: Date}]
+    bookings: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Booking',
+        },
+    ],
+    disableDate: [{ type: Date }],
 });
 
 schema.methods.hashPassword = async function() {

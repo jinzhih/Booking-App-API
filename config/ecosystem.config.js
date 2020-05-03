@@ -2,7 +2,7 @@ module.exports = {
     apps: [
         {
             name: 'booking-api',
-            script: './index.js'
+            script: './src/index.js'
         }
     ]
 }
