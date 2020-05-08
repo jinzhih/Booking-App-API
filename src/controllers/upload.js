@@ -14,7 +14,7 @@ const s3 = new aws.S3({
 });
 
 const profileUpload = multer({
-    storage: multerS3({
+/*     storage: multerS3({
         s3: s3,
         bucket: 'bookingupload-aibt-test',
         acl: 'public-read',
@@ -30,9 +30,9 @@ const profileUpload = multer({
                     path.extname(file.originalname)
             );
         },
-    }),
+    }), */
     //  For Dev 
-    //dest: 'uploads/',
+    dest: 'uploads/',
     limits: { fileSize: 5000000 }, //limit 5M, In bytes: 2000000 bytes = 2 MB
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
@@ -62,7 +62,7 @@ function checkFileType(file, cb) {
     }
 }
 
-router.post('/file-upload', (req, res) => {
+function upload(req, res) {
     profileUpload(req, res, (error) => {
         if (error) {
             console.log('errors', error);
@@ -78,12 +78,12 @@ router.post('/file-upload', (req, res) => {
                 const fileName = file.originalname;
                 const fileLocation = file.path;
                 /*  let fileArray = req.files;
-                const fileLocationArray = [];
-                for (let i = 0; i < fileArray.length; i++) {
-                    fileLocation = fileArray[i].path;
-                    console.log('filenm', fileLocation);
-                    fileLocationArray.push(fileLocation);
-                } */
+            const fileLocationArray = [];
+            for (let i = 0; i < fileArray.length; i++) {
+                fileLocation = fileArray[i].path;
+                console.log('filenm', fileLocation);
+                fileLocationArray.push(fileLocation);
+            } */
                 // Save the file name into database
 
                 // Save the file name into database into profile model
@@ -94,6 +94,6 @@ router.post('/file-upload', (req, res) => {
             }
         }
     });
-});
+}
 
-module.exports = router;
+module.exports = { upload };
