@@ -6,34 +6,32 @@ async function addChat(req, res) {
     let {
         bookingId,
         studentId,
-        counselorId,
         chatRecords
     } = req.body;
     // trans authorId type from string to ObjectId
     const records = [];
-    chatRecords.forEach(record => {
-        let { author, content, time} = record;
-        // For test only
-        time = new Date();
+    if (!chatRecords || !chatRecords.length) {
+        return res.status(404).json('chatRecords not found');
+    }
+    chatRecords.forEach((record) => {
+        let { author, content, time } = record;
 
         author = mongoose.Types.ObjectId(author);
         const item = {
             author,
             content,
-            time
+            time,
         };
         records.push(item);
     });
     chatRecords = records;
-    // trans bookingId, studentId, counselorId type from string to ObjectId
+    // trans bookingId, studentId type from string to ObjectId
     bookingId = mongoose.Types.ObjectId(bookingId);
     studentId = mongoose.Types.ObjectId(studentId);
-    counselorId = mongoose.Types.ObjectId(counselorId);
 
     const chat = new Chat({
         bookingId,
         studentId,
-        counselorId,
         chatRecords
     });
     await chat.save();
@@ -45,12 +43,22 @@ async function addChat(req, res) {
     return res.json(chat);
 }
 
+async function getAllChatByBookingId(req, res) {
+    const { bookingId } = req.query;
+
+    const chats = await Chat.findOne(
+        { bookingId: bookingId },
+        { bookingId: 0 }
+    ).populate('chatRecords.author', 'firstName lastName').exec();
+    return res.json(chats);
+}
+
 
 
 async function updateChat(req, res) {
   const { id } = req.params;
-  const { chatRecords } = req.body;
-  console.log(chatRecords);
+  const chatRecords = req.body;
+
   const newChat = await Chat.findByIdAndUpdate(
       id,
       {
@@ -68,4 +76,4 @@ async function updateChat(req, res) {
   return res.json(newChat);
 }
 
-module.exports = { addChat, updateChat };
+module.exports = { addChat, updateChat, getAllChatByBookingId };

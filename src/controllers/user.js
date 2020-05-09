@@ -42,7 +42,7 @@ async function addUser(req, res) {
 async function getUser(req, res) {
     const { id } = req.params;
     //TODO may need to update set data later
-    const user = await User.findById(id, 'firstName lastName email studentId campus phone gender disableDate')
+    const user = await User.findById(id, 'firstName lastName userType email studentId campus phone gender disableDate')
         .exec();
 
     if (!user) {
