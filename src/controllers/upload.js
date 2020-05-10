@@ -14,7 +14,7 @@ const s3 = new aws.S3({
 });
 
 const profileUpload = multer({
-/*     storage: multerS3({
+    storage: multerS3({
         s3: s3,
         bucket: 'bookingupload-aibt-test',
         acl: 'public-read',
@@ -30,9 +30,9 @@ const profileUpload = multer({
                     path.extname(file.originalname)
             );
         },
-    }), */
+    }), 
     //  For Dev 
-    dest: 'uploads/',
+    //dest: 'uploads/',
     limits: { fileSize: 5000000 }, //limit 5M, In bytes: 2000000 bytes = 2 MB
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
@@ -76,7 +76,7 @@ function upload(req, res) {
                 // If Success
                 const file = req.files[0];
                 const fileName = file.originalname;
-                const fileLocation = file.path;
+                const fileLocation = file.location;
                 /*  let fileArray = req.files;
             const fileLocationArray = [];
             for (let i = 0; i < fileArray.length; i++) {
