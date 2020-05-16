@@ -15,6 +15,10 @@ const schema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
+        bookingNum: {
+            type: String,
+            required: true,
+        },
         topic: {
             type: String,
             required: true,
@@ -40,12 +44,12 @@ const schema = new mongoose.Schema(
                 fileLocation: {
                     type: String,
                     required: true,
-                }
+                },
             },
         ],
         status: {
             type: String,
-            default: 'processing',
+            required: true,
         },
         chats: {
             type: mongoose.Schema.Types.ObjectId,
