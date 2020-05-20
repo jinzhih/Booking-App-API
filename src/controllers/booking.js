@@ -48,7 +48,7 @@ async function getBooking(req, res) {
 
     const booking = await Booking.findById(id)
         .populate('chats', 'id chatRecords')
-        .populate('userId', 'firstName lastName')
+        .populate('userId', 'firstName lastName studentId')
         .exec();
 
     if (!booking) {
@@ -63,7 +63,7 @@ async function getAllBooking(req, res) {
         {},
         { content: 0, attachment: 0, createdAt: 0, updatedAt: 0 }
     )
-        .populate('userId', 'firstName lastName')
+        .populate('userId', 'firstName lastName studentId')
         .exec();
 
     if (!bookings) {
