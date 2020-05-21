@@ -29,7 +29,7 @@ const schema = new mongoose.Schema({
     },
     studentId: {
         type: Number,
-        required
+        require: true
     },
     campus: {
         type: String,
