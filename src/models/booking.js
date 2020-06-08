@@ -71,6 +71,6 @@ const schema = new mongoose.Schema(
     }
 );
 
-const model =mongoose.model('Booking', schema);
+const model = mongoose.model('Booking', schema);
 
 module.exports = model;

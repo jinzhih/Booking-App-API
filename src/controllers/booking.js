@@ -61,12 +61,23 @@ async function getBooking(req, res) {
 }
 
 async function getAllBooking(req, res) {
-    const bookings = await Booking.find(
-        {},
-        { content: 0, attachment: 0, createdAt: 0, updatedAt: 0 }
-    )
-        .populate('userId', 'firstName lastName studentId')
-        .exec();
+    const { type } = req.query;
+
+    let bookings = [];
+    // if query param exist, then return all booked offline booking session
+    if (type == 'Offline') {
+        bookings = await Booking.find(
+            { type: type },
+            { bookingDate: 1, bookingTime: 1 }
+        ).exec();
+    } else {
+        bookings = await Booking.find(
+            {},
+            { content: 0, attachment: 0, createdAt: 0, updatedAt: 0 }
+        )
+            .populate('userId', 'firstName lastName studentId')
+            .exec();
+    }
 
     if (!bookings) {
         return res.status(404).json('booking not found');
