@@ -22,11 +22,11 @@ async function addUser(req, res) {
     }
     // Test Only
     const user = new User({
-        firstName: 'Harry',
-        lastName: 'Gorden',
-        email: 'test2@test.com',
+        firstName: 'Staff',
+        lastName: 'Pop',
+        email: 'admin@test.com',
         studentId: '315623',
-        userType: 'student',
+        userType: 'admin',
         campus: 'hobart',
         password: 'test999',
         gender: 'male',

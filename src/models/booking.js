@@ -34,6 +34,9 @@ const schema = new mongoose.Schema(
             type: Date,
             required: true,
         },
+        bookingTime: {
+            type: String,
+        },
         attachment: [
             {
                 fileName: {

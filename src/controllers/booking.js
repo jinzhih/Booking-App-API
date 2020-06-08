@@ -13,6 +13,7 @@ async function addBooking(req, res) {
         subject,
         content,
         bookingDate,
+        bookingTime,
         attachment,
         status,
     } = req.body;
@@ -26,6 +27,7 @@ async function addBooking(req, res) {
         subject,
         content,
         bookingDate,
+        bookingTime,
         attachment,
         status,
         bookingNum,
@@ -86,7 +88,7 @@ async function getAllBooking(req, res) {
                     new: true,
                 }
             ).exec();
-        } 
+        }
     });
 
 
