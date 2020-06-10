@@ -3,13 +3,14 @@ const mongoose = require("mongoose");
 
 async function addSession(req, res) {
     const { sessions } = req.body;
+    console.log(sessions);
     if(sessions) {
         await Promise.all(sessions.map(async item => {
-            let { date, time } = item;
-            date = new Date();
+            let { date, time, campus } = item;
             const session = new Session({
                 date,
-                time
+                time,
+                campus
             });
             await session.save();
         }))
@@ -20,10 +21,21 @@ async function addSession(req, res) {
 };
 
 async function getAllSession(req, res) {
-    const sessions = await Session.find(
-        {},
-        { date: 1, time: 1 }
-    ).exec();
+    const { date } = req.query;
+    console.log(date);
+    let sessions = [];
+    if(date) {
+        sessions = await Session.find(
+            { date: date },
+            { time: 1, campus: 1 }
+        ).exec();
+    } else {
+        sessions = await Session.find(
+            {},
+            { date: 1, time: 1, campus: 1 }
+        ).exec();
+    }
+
     if (!sessions) {
         return res.status(404).json('session not found');
     }
