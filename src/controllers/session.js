@@ -2,9 +2,9 @@ const Session = require('../models/session');
 const mongoose = require("mongoose");
 
 async function addSession(req, res) {
-    const { sessions } = req.body;
-    console.log(sessions);
-    if(sessions) {
+    const { date, time, campus } = req.body;
+
+    /* if(sessions) {
         await Promise.all(sessions.map(async item => {
             let { date, time, campus } = item;
             const session = new Session({
@@ -13,21 +13,27 @@ async function addSession(req, res) {
                 campus
             });
             await session.save();
-        }))
+        })) */
+        const session = new Session({ 
+            date,
+            time,
+            campus
+        });
+        await session.save();
         return res.status(200).json('success');
-    } else {
+    /* } else {
         return res.status(404).json('sessions not found');
-    }
+    } */
 };
 
 async function getAllSession(req, res) {
-    const { date } = req.query;
+    const { date, campus } = req.query;
     console.log(date);
     let sessions = [];
     if(date) {
         sessions = await Session.find(
-            { date: date },
-            { time: 1, campus: 1 }
+            { date: date, campus: campus },
+            { time: 1 }
         ).exec();
     } else {
         sessions = await Session.find(
@@ -43,8 +49,10 @@ async function getAllSession(req, res) {
 };
 
 async function deleteSession(req, res) {
-    const { id } = req.params;
-    const session = await Session.findByIdAndDelete(id).exec();
+    const { date, campus } = req.query;
+    const session = await Session.findOneAndDelete(
+        { date: date, campus: campus },
+    ).exec();
 
     if (!session) {
         return res.status(404).json('session not found');
