@@ -42,16 +42,19 @@ async function updateSession(req, res) {
     const { time } = req.body;
 
     const newSession = await Session.findByIdAndUpdate(
-        id,
+        {
+            _id: id
+        },
         {
             time
         },
         {
-            new: true
+            new: true,
+            useFindAndModify: false
         }
     ).exec();
 
-    if (newSession) {
+    if (!newSession) {
         return res.status(404).json('chat not found');
     }
 
