@@ -28,7 +28,7 @@ const schema = new mongoose.Schema({
         default: 'student',
     },
     studentId: {
-        type: Number,
+        type: String,
         require: true
     },
     campus: {

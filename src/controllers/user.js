@@ -24,7 +24,7 @@ async function addUser(req, res) {
         firstName: 'Staff',
         lastName: 'Pop',
         email: 'admin@test.com',
-        studentId: '315623',
+        studentId: '054828',
         userType: 'admin',
         campus: 'hobart',
         password: 'test999',
