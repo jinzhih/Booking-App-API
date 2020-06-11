@@ -61,7 +61,7 @@ async function getBooking(req, res) {
 
     const booking = await Booking.findById(id)
         .populate('chats', 'id chatRecords')
-        .populate('userId', 'firstName lastName studentId')
+        .populate('userId', 'firstName lastName studentId email campus phone gender')
         .exec();
 
     if (!booking) {

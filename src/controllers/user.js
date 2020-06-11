@@ -13,7 +13,6 @@ async function addUser(req, res) {
         gender,
         phone,
         bookings,
-        disableDate,
     } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -30,8 +29,7 @@ async function addUser(req, res) {
         campus: 'hobart',
         password: 'test999',
         gender: 'male',
-        phone: '4568455465',
-        disableDate: null,
+        phone: '0666 666 666',
     });
     await user.hashPassword();
     await user.save();

@@ -37,7 +37,7 @@ const schema = new mongoose.Schema({
         required: true,
     },
     phone: {
-        type: Number,
+        type: String,
         required: true,
     },
     gender: {
@@ -50,7 +50,6 @@ const schema = new mongoose.Schema({
             ref: 'Booking',
         },
     ],
-    disableDate: [{ type: Date }],
 });
 
 schema.methods.hashPassword = async function() {
