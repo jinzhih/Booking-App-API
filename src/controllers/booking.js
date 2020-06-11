@@ -75,12 +75,14 @@ async function getAllBooking(req, res) {
     const { type } = req.query;
 
     let bookings = [];
-    // if query param exist, then return all booked offline booking session
-    if (type == 'Offline') {
+    // if query param exist, then return all booked offline booking
+    if (type === 'offline') {
         bookings = await Booking.find(
             { type: type },
-            { bookingDate: 1, bookingTime: 1 }
-        ).exec();
+            { type: 0, attachment: 0, chats: 0, createdAt: 0, updatedAt: 0 }
+        )
+            .populate('userId', 'firstName lastName studentId')
+            .exec();
     } else {
         bookings = await Booking.find(
             {},
