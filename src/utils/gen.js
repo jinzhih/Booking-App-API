@@ -1,16 +1,16 @@
 const genBookingNum = (campus) => {
     let prefix = '';
     switch (campus) {
-        case 'Hobart':
+        case 'hobart':
             prefix = 'HBT';
             break;
-        case 'Brisbane':
+        case 'brisbane':
             prefix = 'BNE';
             break;
-        case 'Sydney':
+        case 'sydney':
             prefix = 'SYD';
             break;
-        case 'Melbourn':
+        case 'melbourne':
             prefix = 'MEL';
             break;
         default:
@@ -23,5 +23,5 @@ const genBookingNum = (campus) => {
 }
 
 module.exports = {
-  genBookingNum
+    genBookingNum
 };

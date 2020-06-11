@@ -1,7 +1,9 @@
 const Booking = require('../models/booking');
 const User = require('../models/user');
 const Chat = require('../models/chat');
+const Session = require('../models/session');
 const sendEmail = require('../utils/sendEmail');
+const moment = require('moment');
 const { genBookingNum } = require('../utils/gen');
 
 async function addBooking(req, res) {
@@ -41,6 +43,15 @@ async function addBooking(req, res) {
     userEmail = 'liachenxiexu@gmail.com';
     // Send email
     sendEmail(user, booking);
+    // Disable the relative session
+    if(type === 'offline') {
+        const dateString = moment(bookingDate).format('YYYY-MM-DD');
+        const session = await Session.findOne(
+            { date: dateString, campus: campus },
+        ).exec();
+        session.time.pull(bookingTime);
+        await session.save();
+    }
 
     return res.json(booking);
 }
@@ -145,6 +156,16 @@ async function updateBookingStatus(req, res) {
 
     if (!newBooking) {
         return res.status(404).json('booking not found');
+    }
+
+    // Disable the relative session
+    if(status === 'canceled') {
+        const dateString = moment(newBooking.bookingDate).format('YYYY-MM-DD');
+        const session = await Session.findOne(
+            { date: dateString, campus: newBooking.campus },
+        ).exec();
+        session.time.addToSet(newBooking.bookingTime);
+        await session.save();
     }
 
     return res.json(newBooking);
