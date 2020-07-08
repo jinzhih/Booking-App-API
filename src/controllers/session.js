@@ -29,12 +29,19 @@ async function addSession(req, res) {
 
 async function getSession(req, res) {
     const { date, campus } = req.query;
+    let session = [];
 
-    const session = await Session.findOne(
-        { date: date, campus: campus },
-    ).exec();
+    if(date && campus) {
+        session = await Session.findOne(
+            { date: date, campus: campus },
+        ).exec();
+    
+        return res.json(session);
+    } else {
+        session = await Session.find().exec();
 
-    return res.json(session);
+        return res.json(session);
+    }
 };
 
 async function updateSession(req, res) {

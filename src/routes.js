@@ -11,10 +11,10 @@ const router = express.Router();
 //TODO add auth middleware when production
 
 router.use("/auth", authRoute);
-router.use('/users', userRouter);
-router.use('/bookings', bookingRouter);
-router.use('/chats', chatRouter);
-router.use('/sessions', sessionRouter);
+router.use('/users', authGuard, userRouter);
+router.use('/bookings', authGuard, bookingRouter);
+router.use('/chats', authGuard, chatRouter);
+router.use('/sessions', authGuard, sessionRouter);
 
 
 module.exports = router;
