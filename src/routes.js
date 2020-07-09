@@ -5,14 +5,11 @@ const chatRouter = require('./routes/chat');
 const sessionRouter = require('./routes/session');
 const authRoute = require("./routes/auth");
 const authGuard = require('./middleware/authGuard');
-const adminGuard = require("./middleware/adminGuard");
 const router = express.Router();
-
-//TODO add auth middleware when production
 
 router.use("/auth", authRoute);
 router.use('/users', authGuard, userRouter);
-router.use('/bookings', authGuard, bookingRouter);
+router.use('/bookings', bookingRouter);
 router.use('/chats', authGuard, chatRouter);
 router.use('/sessions', authGuard, sessionRouter);
 

@@ -5,6 +5,7 @@ const Session = require('../models/session');
 const sendEmail = require('../utils/sendEmail');
 const moment = require('moment');
 const { genBookingNum } = require('../utils/gen');
+const { BOOKING_TYPE, OFFLINE_BOOKING_STATUS } = require('../constants/option');
 
 async function addBooking(req, res) {
     const {
@@ -38,17 +39,16 @@ async function addBooking(req, res) {
 
     const user = await User.findById(userId).exec();
     user.bookings.addToSet(booking._id);
-    let userEmail = user.email;
     await user.save();
-    userEmail = 'liachenxiexu@gmail.com';
     // Send email
     sendEmail(user, booking);
     // Disable the relative session
-    if(type === 'offline') {
+    if(type === BOOKING_TYPE.OFFLINE) {
         const dateString = moment(bookingDate).format('YYYY-MM-DD');
         const session = await Session.findOne(
             { date: dateString, campus: campus },
         ).exec();
+        console.log(bookingTime);
         session.time.pull(bookingTime);
         await session.save();
     }
@@ -76,10 +76,10 @@ async function getAllBooking(req, res) {
 
     let bookings = [];
     // if query param exist, then return all booked offline booking
-    if (type === 'offline') {
+    if (type === BOOKING_TYPE.OFFLINE) {
         bookings = await Booking.find(
             { type: type },
-            { type: 0, attachment: 0, chats: 0, createdAt: 0, updatedAt: 0 }
+            { attachment: 0, chats: 0, createdAt: 0, updatedAt: 0 }
         )
             .populate('userId', 'firstName lastName studentId')
             .exec();
@@ -102,11 +102,11 @@ async function getAllBooking(req, res) {
         const now = new Date().getTime();
         const time = new Date(bookingDate).getTime();
         const isExpired = now - time > 0;
-        if (type === 'Offline' && isExpired && (status != 'finished')) {
+        if (type === BOOKING_TYPE.OFFLINE && isExpired && (status != OFFLINE_BOOKING_STATUS.FINISHED)) {
             Booking.findByIdAndUpdate(
                 _id,
                 {
-                    status: 'finished',
+                    status: OFFLINE_BOOKING_STATUS.FINISHED,
                 },
                 {
                     new: true,
@@ -161,7 +161,7 @@ async function updateBookingStatus(req, res) {
     }
 
     // Disable the relative session
-    if(status === 'canceled') {
+    if(status === OFFLINE_BOOKING_STATUS.CANCELED) {
         const dateString = moment(newBooking.bookingDate).format('YYYY-MM-DD');
         const session = await Session.findOne(
             { date: dateString, campus: newBooking.campus },

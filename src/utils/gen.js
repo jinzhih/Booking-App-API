@@ -1,17 +1,19 @@
+const { CAMPUS, CAMPUS_ABBR } = require('../constants/option');
+
 const genBookingNum = (campus) => {
     let prefix = '';
     switch (campus) {
-        case 'hobart':
-            prefix = 'HBT';
+        case CAMPUS.HOBART:
+            prefix = CAMPUS_ABBR.HOBART;
             break;
-        case 'brisbane':
-            prefix = 'BNE';
+        case CAMPUS.BRISBANE:
+            prefix = CAMPUS_ABBR.BRISBANE;
             break;
-        case 'sydney':
-            prefix = 'SYD';
+        case CAMPUS.SYDNEY:
+            prefix = CAMPUS_ABBR.SYDNEY;
             break;
-        case 'melbourne':
-            prefix = 'MEL';
+        case CAMPUS.MELBOURNE:
+            prefix = CAMPUS_ABBR.MELBOURNE;
             break;
         default:
             break;
