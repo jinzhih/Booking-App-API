@@ -48,7 +48,6 @@ async function addBooking(req, res) {
         const session = await Session.findOne(
             { date: dateString, campus: campus },
         ).exec();
-        console.log(bookingTime);
         session.time.pull(bookingTime);
         await session.save();
     }
