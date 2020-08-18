@@ -21,14 +21,14 @@ async function addUser(req, res) {
     }
     // Test Only
     const user = new User({
-        firstName: 'Staff',
-        lastName: 'Pop',
-        email: 'admin@test.com',
+        firstName: 'Student2',
+        lastName: 'Smith',
+        email: 'test1@test.com',
         studentId: '054828',
-        userType: 'admin',
-        campus: 'hobart',
+        userType: 'student',
+        campus: 'sydney',
         password: 'test999',
-        gender: 'male',
+        gender: 'female',
         phone: '0666 666 666',
     });
     await user.hashPassword();

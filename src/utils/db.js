@@ -9,8 +9,22 @@ exports.connectToDB = () => {
     connectionString = `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
   }
 
-  console.log(`Connecting to ${connectionString}`);
-  mongoose.set("useUnifiedTopology", true);
+  const db = mongoose.connection;
+  db.on('connected', () => {
+      console.log('DB connected');
+  });
+  db.on('error', (error) => {
+      console.log('DB connection failed.');
+      console.error(error.message);
+      process.exit(1);
 
-  return mongoose.connect(connectionString, { useNewUrlParser: true });
+  });
+  db.on('disconnected', () =>{
+      console.log('mongoose connection is disconnected.');
+  });
+
+  return mongoose.connect(connectionString,{
+      useUnifiedTopology: true,
+      useNewUrlParser: true
+  });
 };
