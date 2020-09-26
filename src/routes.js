@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use("/auth", authRoute);
 router.use('/users', authGuard, userRouter);
-//router.use('/users',  userRouter);
+
 router.use('/bookings', bookingRouter);
 router.use('/chats', authGuard, chatRouter);
 router.use('/sessions', authGuard, sessionRouter);
