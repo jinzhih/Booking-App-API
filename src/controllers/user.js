@@ -40,8 +40,9 @@ async function addUser(req, res) {
 async function getUser(req, res) {
     const { id } = req.params;
     //TODO may need to update set data later
-    const user = await User.findById(id, 'firstName lastName userType email studentId campus phone gender disableDate')
+    const user = await User.findById(id, 'firstName lastName userType email campus phone gender disableDate studentId')
         .exec();
+    console.log(user);
 
     if (!user) {
         return res.status(404).json('user not found');
@@ -52,11 +53,13 @@ async function getUser(req, res) {
 
 //GET /api/users/:id/bookings
 async function getAllBookingsByUserId(req, res) {
+    
     const { id: userId } = req.params;
     const bookings = await Booking.find({ userId })
         .populate('chats', 'id chatRecords')
-        .populate('userId', 'firstName lastName')
+        .populate('userId', 'firstName lastName studentId')
         .exec();
+       
     return res.json(bookings);
 }
 

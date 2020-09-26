@@ -49,7 +49,7 @@ async function getAllChatByBookingId(req, res) {
     const chats = await Chat.findOne(
         { bookingId: bookingId },
         { bookingId: 0 }
-    ).populate('chatRecords.author', 'firstName lastName').exec();
+    ).populate('chatRecords.author', 'firstName lastName studentId').exec();
     return res.json(chats);
 }
 

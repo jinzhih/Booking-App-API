@@ -13,7 +13,7 @@ async function loginUser(req, res) {
     return res.status(400).json("Invalid email or password");
   }
   const token = generateToken(existingUser._id, existingUser.userType);
-
+  console.log("hello");
   return res.json({ email, token });
 }
 
