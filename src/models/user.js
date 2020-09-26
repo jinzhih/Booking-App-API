@@ -33,7 +33,7 @@ const schema = new mongoose.Schema({
     },
     campus: {
         type: String,
-        default: 'Hobart',
+        default: 'hobart',
         required: true,
     },
     phone: {
