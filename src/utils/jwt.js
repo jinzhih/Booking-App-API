@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 function generateToken(id, userType) {
-  //TODO change "secret" to ENV 
-  const token = jwt.sign({ id, userType }, process.env.JWT_KEY, {
+  //TODO change "secret" to ENV  process.env.JWT_KEY
+  const token = jwt.sign({ id, userType }, "secret", {
     expiresIn: "1h"
   });
   return token;
@@ -11,7 +11,7 @@ function generateToken(id, userType) {
 function validateToken(token) {
   let decoded;
   try {
-    decoded = jwt.verify(token, process.env.JWT_KEY);
+    decoded = jwt.verify(token, "secret");
   } catch (e) {
     return null;
   }

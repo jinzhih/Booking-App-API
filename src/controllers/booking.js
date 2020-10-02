@@ -20,7 +20,7 @@ async function addBooking(req, res) {
         attachment,
         status,
     } = req.body;
-
+    console.log(attachment); 
     const bookingNum = genBookingNum(campus);
     const booking = new Booking({
         type,
@@ -153,7 +153,9 @@ async function updateBookingStatus(req, res) {
         {
             new: true,
         }
-    ).exec();
+    )
+    .populate('userId','firstName lastName studentId email campus phone gender')
+    .exec();
 
     if (!newBooking) {
         return res.status(404).json('booking not found');
