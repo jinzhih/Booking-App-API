@@ -5,33 +5,23 @@ const mongoose = require("mongoose");
 async function addLog(req, res) {
     let {
         bookingId,
-        studentId,
+        staffId,
         logRecords
     } = req.body;
+    console.log(logRecords);
     // trans authorId type from string to ObjectId
-    const records = [];
-    if (!logRecords || !logRecords.length) {
+    
+    if (!logRecords ) {
         return res.status(404).json('logRecords not found');
     }
-    logRecords.forEach((record) => {
-        let { author, content, time } = record;
-
-        author = mongoose.Types.ObjectId(author);
-        const item = {
-            author,
-            content,
-            time,
-        };
-        records.push(item);
-    });
-    logRecords = records;
+  
     // trans bookingId, studentId type from string to ObjectId
     bookingId = mongoose.Types.ObjectId(bookingId);
-    studentId = mongoose.Types.ObjectId(studentId);
+    staffId = mongoose.Types.ObjectId(staffId);
 
     const log = new Log({
         bookingId,
-        studentId,
+        staffId,
         logRecords
     });
     await log.save();
@@ -39,7 +29,7 @@ async function addLog(req, res) {
     const booking = await Booking.findById(bookingId).exec();
     booking.logs = log._id;
     await booking.save();
-
+    console.log(log); 
     return res.json(log);
 }
 

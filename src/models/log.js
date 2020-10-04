@@ -1,25 +1,25 @@
 const mongoose = require('mongoose');
 
-const logRecordsSchema = new mongoose.Schema(
-    {
-        author: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            require: true,
-        },
-        content: {
-            type: String,
-            require: true,
-        },
-        time: {
-            type: Date,
-            require: true,
-        },
-    },
-    {
-        _id: false,
-    }
-);
+// const logRecordsSchema = new mongoose.Schema(
+//     {
+//         author: {
+//             type: mongoose.Schema.Types.ObjectId,
+//             ref: 'User',
+//             require: true,
+//         },
+//         content: {
+//             type: String,
+//             require: true,
+//         },
+//         time: {
+//             type: Date,
+//             require: true,
+//         },
+//     },
+//     {
+//         _id: false,
+//     }
+// );
 
 const schema = new mongoose.Schema({
     bookingId: {
@@ -27,12 +27,15 @@ const schema = new mongoose.Schema({
         ref: 'Booking',
         require: true,
     },
-    studentId: {
+    staffId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         require: true,
     },
-    logRecords: [logRecordsSchema],
+    logRecords: {
+        type: String,
+
+    },
 });
 
 const model = mongoose.model('Log', schema);
