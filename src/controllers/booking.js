@@ -20,7 +20,7 @@ async function addBooking(req, res) {
         attachment,
         status,
     } = req.body;
-    console.log(attachment); 
+    
     const bookingNum = genBookingNum(campus);
     const booking = new Booking({
         type,
