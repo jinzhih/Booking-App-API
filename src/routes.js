@@ -2,6 +2,7 @@ const express = require('express');
 const userRouter = require('./routes/user');
 const bookingRouter = require('./routes/booking');
 const chatRouter = require('./routes/chat');
+const logRouter = require('./routes/log');
 const sessionRouter = require('./routes/session');
 const authRoute = require("./routes/auth");
 const authGuard = require('./middleware/authGuard');
@@ -12,6 +13,7 @@ router.use('/users', authGuard, userRouter);
 
 router.use('/bookings', bookingRouter);
 router.use('/chats', authGuard, chatRouter);
+router.use('/logs', authGuard, logRouter);
 router.use('/sessions', authGuard, sessionRouter);
 
 

@@ -57,6 +57,10 @@ const schema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Chat',
         },
+        logs: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Log',
+        },
         __v: {
             type: Number,
             select: false,

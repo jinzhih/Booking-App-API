@@ -5,18 +5,21 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 
-const { S3_ACCESSKEY, S3_SECRET, S3_BUCKET } = process.env;
+//const { S3_ACCESSKEY, S3_SECRET, S3_BUCKET } = process.env;
 
 const s3 = new aws.S3({
-    accessKeyId: S3_ACCESSKEY,
-    secretAccessKey: S3_SECRET,
-    Bucket: S3_BUCKET,
+    // accessKeyId: S3_ACCESSKEY,
+    // secretAccessKey: S3_SECRET,
+    // Bucket: S3_BUCKET,
+    accessKeyId: 'AKIA5HOJXMF4F3HSSYJY',
+    secretAccessKey: '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',
+    Bucket: 'bookingupload-aibt-test1',
 });
 
 const profileUpload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'bookingupload-aibt-test',
+        bucket: 'bookingupload-aibt-test1',
         acl: 'public-read',
         key: function (req, file, cb) {
             cb(
