@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/', authGuard, addBooking);
 router.get('/', authGuard, adminGuard, getAllBooking);
 router.get('/:id', authGuard, getBooking);
+
 router.put('/:id', authGuard, updateBooking);
 router.patch('/:id', authGuard, updateBookingStatus);
 router.delete('/:id', authGuard, deleteBooking);

@@ -55,9 +55,51 @@ async function addBooking(req, res) {
     return res.json(booking);
 }
 
+// async function getBooking(req, res) {
+//     console.log('1');
+//     const { id } = req.params;
+
+//     const booking = await Booking.findById(id)
+//         .populate('chats', 'id chatRecords')
+//         .populate('userId', 'firstName lastName studentId email campus phone gender')
+//         .exec();
+
+//     if (!booking) {
+//         return res.status(404).json('booking not found');
+//     }
+//     //return bookings
+//     const { type } = req.query;
+
+//     let bookings = [];
+//     // if query param exist, then return all booked offline booking
+//     if (type === BOOKING_TYPE.OFFLINE) {
+//         bookings = await Booking.find(
+//             { type: type },
+//             { attachment: 0, chats: 0, createdAt: 0, updatedAt: 0 }
+//         )
+//             .populate('userId', 'firstName lastName studentId')
+//             .exec();
+//     } else {
+//         bookings = await Booking.find(
+//             {},
+//             { content: 0, attachment: 0, createdAt: 0, updatedAt: 0 }
+//         )
+//             .populate('userId', 'firstName lastName studentId')
+//             .exec();
+//     }
+
+//     if (!bookings) {
+//         return res.status(404).json('booking not found');
+//     }
+
+//     console.log(bookings);
+//     console.log(booking);
+//     //return res.json(booking);
+//     return res.json({ booking, bookings });
+// }
+
 async function getBooking(req, res) {
     const { id } = req.params;
-
     const booking = await Booking.findById(id)
         .populate('chats', 'id chatRecords')
         .populate('userId', 'firstName lastName studentId email campus phone gender')
@@ -66,9 +108,11 @@ async function getBooking(req, res) {
     if (!booking) {
         return res.status(404).json('booking not found');
     }
-
+    
     return res.json(booking);
+   
 }
+
 
 async function getAllBooking(req, res) {
     const { type } = req.query;
@@ -114,7 +158,7 @@ async function getAllBooking(req, res) {
         }
     });
 
-
+   
     return res.json(bookings);
 }
 // update booking info
@@ -141,7 +185,7 @@ async function updateBooking(req, res) {
 
     return res.json(newBooking);
 }
-// update booking status only, when confirmed or finished
+
 async function updateBookingStatus(req, res) {
     const { id } = req.params;
     const { status } = req.body;
@@ -160,7 +204,7 @@ async function updateBookingStatus(req, res) {
     if (!newBooking) {
         return res.status(404).json('booking not found');
     }
-
+    
     // Disable the relative session
     if(status === OFFLINE_BOOKING_STATUS.CANCELED) {
         const dateString = moment(newBooking.bookingDate).format('YYYY-MM-DD');
@@ -171,7 +215,19 @@ async function updateBookingStatus(req, res) {
         await session.save();
     }
 
-    return res.json(newBooking);
+        bookings = await Booking.find(
+        {},
+        { content: 0, attachment: 0, createdAt: 0, updatedAt: 0 }
+    )
+        .populate('userId', 'firstName lastName studentId')
+        .exec();
+    console.log(bookings);
+    if (!bookings) {
+        return res.status(404).json('booking not found');
+    }
+
+    //return res.json(newBooking);
+    return res.json({ newBooking, bookings });
 }
 
 async function deleteBooking(req, res) {
